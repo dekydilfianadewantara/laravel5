@@ -15,5 +15,11 @@
 //     return view('welcome');
 // });
 // Route::get('create', 'BookController@create');
+
+Route::get('/', 'UserController@index');
 Route::resource('book', 'BookController');
 Route::resource('user', 'UserController');
+Route::controllers([
+	'auth' => 'Auth\AuthController',
+	'password' => 'Auth\PasswordController',
+]);
