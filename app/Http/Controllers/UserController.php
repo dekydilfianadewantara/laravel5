@@ -42,6 +42,7 @@ class UserController extends Controller
         $data = new User();
         $data->name = \Request::input('name');
         $data->email = \Request::input('email');
+        $data->password= bcrypt(\Request::input('password'));
         $data->save();
         return redirect()->route('user.index');
     }
@@ -81,7 +82,7 @@ class UserController extends Controller
         $data->name = \Request::input('name');
         $data->email = \Request::input('email');
         $data->save();
-        return redirect()->route('user.create');
+        return redirect()->route('user.index');
     }
 
     /**
@@ -92,7 +93,12 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-       DB::table('users')->where('id', $id)->delete();
+        $data = User::find($id);
+        $data->delete();
         return redirect()->route('user.index');
+    }
+    public function login()
+    {
+        return view('users.login');
     }
 }

@@ -1,24 +1,24 @@
 @extends('layouts.main')
 @section('content')
-    @if(count($errors))
-    <ul>
-        @foreach($errors->all() as $error)
-        <li>{{ $error }}</li>
-        @endforeach
-    </ul>
-    @endif
-    <br>  
-  <form method="POST" action="{{ route('user.store') }}">
+@if(count($errors))
+<ul>
+  @foreach($errors->all() as $error)
+  <li>{{ $error }}</li>
+  @endforeach
+</ul>
+@endif
+<br>  
+<form method="POST" action="{{ url('login') }}">
+  <input type="hidden" name="_token" value="{{ csrf_token() }}">
   <div class="form-group">
-    <label class="sr-only" for="email">Email address:</label>
-    <input type="email" class="form-control" id="email">
+    <label for="exampleInputEmail1">Email address</label>
+    <input type="email" class="form-control" name="email" placeholder="Email">
   </div>
   <div class="form-group">
-    <label class="sr-only" for="password">Password:</label>
-    <input type="password" class="form-control" id="pwd">
+    <label for="exampleInputPassword1">Password</label>
+    <input type="password" class="form-control" name="password" placeholder="Password">
   </div>
- 
-  <button type="submit" class="btn btn-default">Login</button>
+  <button type="submit" class="btn btn-default">Submit</button>
 </form>
 @endsection
 
