@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use DB;
+use Validator;
+use Storage;
+
+use Illuminate\Http\Request;
+
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\User;
+
 class UserController extends Controller
 {
     /**
@@ -17,7 +22,7 @@ class UserController extends Controller
     public function index()
     {
         $users = DB::table('users')->get();
-        return view('users.read', ['users' => $users]);
+       return view('users.read', ['users' => $users]);
     }
 
     /**
@@ -39,10 +44,33 @@ class UserController extends Controller
 
     public function store()
     {
+   
+
+        $rules = [
+         'email' => 'unique:users,email',
+         'password' => 'required',
+         'role' => 'required'
+        ];
+        $messages = [
+            'email.unique' => 'Email telah digunakan, Mohon masukkan yang lain',
+        ];
+        // untuk validasi, format parameter, input dan rule
+        $validator = \Validator::make(\Request::all(), $rules);
+        if($validator->fails())
+            return Redirect()->to('user/create')->withErrors($validator);
+
         $data = new User();
+        $destinationPath = public_path('images');
         $data->name = \Request::input('name');
         $data->email = \Request::input('email');
         $data->password= bcrypt(\Request::input('password'));
+        $data->role = \Request::input('role');
+        $data->save();
+
+        $destinationPath = public_path('images');
+        $fileName = $data->id.".PNG";
+        $data->image = $fileName;
+        \Request::file('image')->move($destinationPath, $fileName);
         $data->save();
         return redirect()->route('user.index');
     }
@@ -78,9 +106,20 @@ class UserController extends Controller
      */
     public function update($id)
     {
+         $rules = [
+         'email' => 'unique:users,email',
+         'password' => 'required',
+         'role' => 'required'
+        ];
+        // untuk validasi, format parameter, input dan rule
+        $validator = \Validator::make(\Request::all(), $rules);
+        if($validator->fails())
+            return Redirect()->back()->withInput()->withError($validator);
+
         $data = User::find($id);
         $data->name = \Request::input('name');
         $data->email = \Request::input('email');
+        $data->password = \Request::input('password');
         $data->save();
         return redirect()->route('user.index');
     }
@@ -94,6 +133,9 @@ class UserController extends Controller
     public function destroy($id)
     {
         $data = User::find($id);
+      
+        $fileName = $data->image;
+        Storage::delete($fileName);
         $data->delete();
         return redirect()->route('user.index');
     }

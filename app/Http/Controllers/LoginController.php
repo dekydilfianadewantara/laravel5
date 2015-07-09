@@ -14,6 +14,8 @@ class LoginController extends Controller
         if (Auth::attempt(['email' => \Request::input('email'), 'password' => \Request::input('password')])) {
                 // Authentication passed...
             return redirect()->intended('/user');
+        }else{
+            return redirect()->intended('');
         }
     }
     

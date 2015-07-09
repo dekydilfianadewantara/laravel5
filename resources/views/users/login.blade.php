@@ -1,26 +1,43 @@
-@extends('layouts.main')
-@section('content')
-@if(count($errors))
-<ul>
-  @foreach($errors->all() as $error)
-  <li>{{ $error }}</li>
-  @endforeach
-</ul>
-@endif
-<br>  
-<form method="POST" action="{{ url('login') }}">
-  <input type="hidden" name="_token" value="{{ csrf_token() }}">
-  <div class="form-group">
-    <label for="exampleInputEmail1">Email address</label>
-    <input type="email" class="form-control" name="email" placeholder="Email">
-  </div>
-  <div class="form-group">
-    <label for="exampleInputPassword1">Password</label>
-    <input type="password" class="form-control" name="password" placeholder="Password">
-  </div>
-  <button type="submit" class="btn btn-default">Submit</button>
-</form>
-@endsection
+
+
+
+
+<!DOCTYPE html>
+<!--[if lt IE 7 ]> <html lang="en" class="ie6 ielt8"> <![endif]-->
+<!--[if IE 7 ]>    <html lang="en" class="ie7 ielt8"> <![endif]-->
+<!--[if IE 8 ]>    <html lang="en" class="ie8"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--> <html lang="en"> <!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>ADMIN</title>
+<link rel="stylesheet" href="{{ url('loginStyle.css') }}" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+  <section id="content">
+    <form method="POST" action="{{ url('login') }}">
+      <input type="hidden" name="_token" value="{{ csrf_token() }}">
+      <h1>Login</h1>
+      <div>
+        <input type="text" placeholder="Username" required="" id="username" name="email" />
+      </div>
+      <div>
+        <input type="password" placeholder="Password" required="" id="password" name="password" />
+      </div>
+      <div>
+        <input type="submit" value="Log in" />
+        <a href="#">Lost your password?</a>
+        <a href="#">Register</a>
+      </div>
+    </form><!-- form -->
+    <div class="button">
+      <a href="#">Download source file</a>
+    </div><!-- button -->
+  </section><!-- content -->
+</div><!-- container -->
+</body>
+</html>
+
 
 
 

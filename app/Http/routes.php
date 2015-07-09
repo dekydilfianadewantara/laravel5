@@ -22,9 +22,22 @@ Route::post('login', 'LoginController@login');
 Route::group([
 	'middleware' => 'auth'
 	], function() {
-		Route::resource('book', 'BookController');
-		Route::resource('user', 'UserController');
-		Route::get('logout', 'LoginController@logout');
+
+		Route::group([
+			'middleware' => 'check.role:admin'
+				], function() {
+				Route::resource('user', 'UserController');
+				Route::get('logout', 'LoginController@logout');
+		});
+
+		Route::group([
+			'middleware' => ['check.role:']
+				], function() {
+				Route::resource('book', 'BookController');
+				Route::get('logout', 'LoginController@logout');
+		});
+
+
 	});
 
 Route::controllers([
