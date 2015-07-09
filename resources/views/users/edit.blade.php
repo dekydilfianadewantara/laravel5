@@ -41,10 +41,17 @@
           <div class="form-group form-actions">
             <div class="input-group">
               <span class="input-group-addon"><i class="fa fa-user"></i></span>
-              <select id="form-field-select-1" class="form-control" name="role">>
-                <option value="" disabled="true" selected="true">Chose Role</option>
-                <option value="admin">Admin </option>
-                <option value="employee">Employee</option>
+              <select id="form-field-select-1" class="form-control" name="role">
+                 @if ($user->role =="admin")
+                   <option  value="admin" selected="true">Admin </option>
+                @else
+                   <option  value="admin">Admin </option>  
+                @endif
+                 @if ( $user->role =="employee")
+                   <option value="employee" selected="true">Employee</option>
+                @else
+                   <option value="employee">Employee</option> 
+                @endif
               </select>
             </div>
           </div>

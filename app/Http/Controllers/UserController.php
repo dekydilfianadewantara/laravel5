@@ -22,7 +22,7 @@ class UserController extends Controller
     public function index()
     {
         $users = DB::table('users')->get();
-       return view('users.read', ['users' => $users]);
+       return view('users.read')->with('users', $users);
     }
 
     /**
@@ -42,7 +42,7 @@ class UserController extends Controller
      */
     
 
-    public function store()
+    public function store(Request $request)
     {
    
 
@@ -55,23 +55,30 @@ class UserController extends Controller
             'email.unique' => 'Email telah digunakan, Mohon masukkan yang lain',
         ];
         // untuk validasi, format parameter, input dan rule
-        $validator = \Validator::make(\Request::all(), $rules);
+        $validator = \Validator::make($request->all(), $rules);
         if($validator->fails())
             return Redirect()->to('user/create')->withErrors($validator);
 
         $data = new User();
-        $destinationPath = public_path('images');
-        $data->name = \Request::input('name');
-        $data->email = \Request::input('email');
-        $data->password= bcrypt(\Request::input('password'));
-        $data->role = \Request::input('role');
+        $destinationPath = public_path('images/users');
+        $data->name = $request->get('name');
+        $data->email = $request->get('email');
+        $data->password= bcrypt($request->get('password'));
+        $data->role = $request->get('role');
         $data->save();
 
-        $destinationPath = public_path('images');
-        $fileName = $data->id.".PNG";
-        $data->image = $fileName;
-        \Request::file('image')->move($destinationPath, $fileName);
-        $data->save();
+
+        if ($data->image == ""){    
+            $fileName = "default.PNG";
+            $data->image = $fileName;
+            $data->save();
+        }else{
+            $destinationPath = public_path('images/users');
+            $fileName = $data->id.".PNG";
+            $data->image = $fileName;
+            $request->file('image')->move($destinationPath, $fileName);
+            $data->save();
+        }
         return redirect()->route('user.index');
     }
 
@@ -84,7 +91,7 @@ class UserController extends Controller
     public function show($id)
     {
         $user= User::find($id);
-        return view('users.show', ['user'=>$user]);
+        return view('users.show')->with('user', $user);
     }
 
     /**
@@ -95,7 +102,9 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        return view('users.edit', ['user'=>User::find($id)]);
+        $user= User::find($id);
+        return view('users.edit')->with('user', $user);
+
     }
 
     /**
@@ -107,21 +116,21 @@ class UserController extends Controller
     public function update($id)
     {
          $rules = [
-         'email' => 'unique:users,email',
          'password' => 'required',
          'role' => 'required'
         ];
         // untuk validasi, format parameter, input dan rule
-        $validator = \Validator::make(\Request::all(), $rules);
+        $validator = \Validator::make($request->all(), $rules);
         if($validator->fails())
             return Redirect()->back()->withInput()->withError($validator);
 
         $data = User::find($id);
-        $data->name = \Request::input('name');
-        $data->email = \Request::input('email');
-        $data->password = \Request::input('password');
+        $data->name = $request->get('name');
+        $data->email = $request->get('email');
+        $data->password = $request->get('password');
         $data->save();
         return redirect()->route('user.index');
+        //return redirect()->to('/user');
     }
 
     /**
@@ -133,9 +142,10 @@ class UserController extends Controller
     public function destroy($id)
     {
         $data = User::find($id);
-      
-        $fileName = $data->image;
-        Storage::delete($fileName);
+        if ($data->image != "default.PNG" && $data->image != "" ){    
+            $fileName = $data->image;
+            Storage::delete($fileName);
+        }
         $data->delete();
         return redirect()->route('user.index');
     }

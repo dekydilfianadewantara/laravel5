@@ -1,6 +1,6 @@
 @extends('layouts.main')
 @section('content')
-    <h3>{{ $user->name }}</h3>
+    <h3>{{ $article->name }}</h3>
     <hr>
-    <p>{{ $user->email }}</p>
+    <p>{{ $article->email }}</p>
 @endsection

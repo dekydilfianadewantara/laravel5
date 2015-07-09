@@ -26,15 +26,21 @@ Route::group([
 		Route::group([
 			'middleware' => 'check.role:admin'
 				], function() {
+				Route::resource('book', 'BookController');
 				Route::resource('user', 'UserController');
+				Route::resource('article', 'ArticleController');
 				Route::get('logout', 'LoginController@logout');
+				Route::get('user/{id}/destroy', 'UserController@destroy');
+				Route::get('user/{id}/edit', 'UserController@edit');
+				Route::get('user/{id}/show', 'UserController@show');
+				Route::get('articles/{id}/edit', 'ArticleController@edit');
 		});
 
 		Route::group([
-			'middleware' => ['check.role:']
+			'middleware' => ['check.role:admin_employee']
 				], function() {
 				Route::resource('book', 'BookController');
-				Route::get('logout', 'LoginController@logout');
+			
 		});
 
 

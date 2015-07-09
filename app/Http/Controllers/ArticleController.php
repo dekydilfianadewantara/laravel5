@@ -2,10 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use DB;
+use Validator;
+use Storage;
+
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Article;
 
 class ArticleController extends Controller
 {
@@ -16,8 +21,9 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $users = DB::table('users')->get();
-        return view('users.read', ['users' => $users]);
+        $articles = Article::all();
+      // return view('articles.read', ['articles' => $articles]);
+       return view('articles.read')->with('articles', $articles);
     }
 
     /**
@@ -27,7 +33,7 @@ class ArticleController extends Controller
      */
     public function create()
     {      
-        return view('users.create');
+        return view('articles.create');
     }
 
     /**
@@ -37,14 +43,34 @@ class ArticleController extends Controller
      */
     
 
-    public function store()
+    public function store(Request $request)
     {
-        $data = new User();
-        $data->name = \Request::input('name');
-        $data->email = \Request::input('email');
-        $data->password= bcrypt(\Request::input('password'));
+   
+
+        $rules = [
+         'title' => 'required',
+         'content' => 'required'
+        ];
+        $messages = [
+            'email.unique' => 'Email telah digunakan, Mohon masukkan yang lain',
+        ];
+        // untuk validasi, format parameter, input dan rule
+        $validator = \Validator::make($request->all(), $rules);
+        if($validator->fails())
+            return Redirect()->to('article/create')->withErrors($validator);
+
+        $data = new Article();
+        $destinationPath = public_path('images/articles');
+        $data->title = $request->get('title');
+        $data->content = $request->get('content');
         $data->save();
-        return redirect()->route('user.index');
+
+        $destinationPath = public_path('images/articles');
+        $fileName = $data->id.".PNG";
+        $data->image = $fileName;
+        $request->file('image')->move($destinationPath, $fileName);
+        $data->save();
+        return redirect()->route('article.index');
     }
 
     /**
@@ -55,8 +81,8 @@ class ArticleController extends Controller
      */
     public function show($id)
     {
-        $user= User::find($id);
-        return view('users.show', ['user'=>$user]);
+        $article= Article::find($id);
+        return view('articles.show', ['article'=>$article]);
     }
 
     /**
@@ -67,7 +93,8 @@ class ArticleController extends Controller
      */
     public function edit($id)
     {
-        return view('users.edit', ['user'=>User::find($id)]);
+        $article = Article::find($id);
+        return view('articles.edit')->with('article', $article);
     }
 
     /**
@@ -76,13 +103,24 @@ class ArticleController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update($id)
+    public function update(Request $request, $id)
     {
-        $data = User::find($id);
-        $data->name = \Request::input('name');
-        $data->email = \Request::input('email');
+         $rules = [
+         'email' => 'unique:articles,email',
+         'password' => 'required',
+         'role' => 'required'
+        ];
+        // untuk validasi, format parameter, input dan rule
+        $validator = \Validator::make($request->all(), $rules);
+        if($validator->fails())
+            return Redirect()->back()->withInput()->withError($validator);
+
+        $data = Article::find($id);
+        $data->name = $request->get('name');
+        $data->email = $request->get('email');
+        $data->password = $request->get('password');
         $data->save();
-        return redirect()->route('user.index');
+        return redirect()->route('article.index');
     }
 
     /**
@@ -93,8 +131,11 @@ class ArticleController extends Controller
      */
     public function destroy($id)
     {
-        $data = User::find($id);
+        $data = Article::find($id);
+      
+        $fileName = $data->image;
+        Storage::delete($fileName);
         $data->delete();
-        return redirect()->route('user.index');
+        return redirect()->route('article.index');
     }
 }

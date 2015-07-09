@@ -29,14 +29,19 @@ class CheckRole
     public function handle($request, Closure $next, $role)
     {
 
-
+        $roles = explode('_', $role);
+       
         $user = $this->auth->user();
-        
-        if ($user->role != $role) {
+        $cek = false;
+         foreach ($roles  as $role) {
+
+            if ($user->role == $role) {
+                $cek = true;
+            }
+        }
+        if ($cek == false) {
             return "denied";
         }
-
-
         return $next($request);
     }
 }
