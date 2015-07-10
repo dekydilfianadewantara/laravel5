@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Article;
-
+use App\Genre;
 class ArticleController extends Controller
 {
      /**
@@ -65,22 +65,25 @@ class ArticleController extends Controller
         $data->content = $request->get('content');
 
         $array = $request->get('genre');
-         
+        $data->save();
          //$data->genre = implode('_', $array);
-         foreach ($array as  $genre) {
-            $data = new Genre();
-             $data->genre  = $genre;
-             $data->save();
-         }
+         
      //   echo $arrays;
     // ['Joe', 'PHP', 'Ruby'];
-        $data->save();
+        
 
         $destinationPath = public_path('images/articles');
         $fileName = $data->id.".PNG";
         $data->image = $fileName;
         $request->file('image')->move($destinationPath, $fileName);
         $data->save();
+
+        foreach ($array as  $genre) {
+            $data = new Genre();
+             $data->genre  = $genre;
+             $data->save();
+         }
+         
         return redirect()->route('article.index');
     }
 

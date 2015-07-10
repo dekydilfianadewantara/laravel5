@@ -36,6 +36,7 @@
                 <th>Full Name</th>
                 <th class="hidden-xs">Role</th>
                 <th class="hidden-xs">Email</th>
+                <th class="hidden-xs">Dibuat</th>
                 <th class="hidden-xs">Order</th>
                 <th></th>
               </tr>
@@ -48,8 +49,9 @@
                   <td><a href="{{ url('user') }}/{{$user->id}}/show">{{ $user->name}}</a></td>
                   <td class="hidden-xs">{{ $user->role}}</td>
                   <td class="hidden-xs">{{ $user->email}}</td>
+                  <td class="hidden-xs">{{ date("d M Y ",strtotime($user->created_at)) }} at {{ date("\t H:i a",strtotime($user->created_at)) }}</td>
                   <td class="hidden-xs">
-
+                  
                    <a href="{{ url('user') }}/{{$user->id}}/edit" class="btn btn-xs btn-blue tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
 
                    <a href="{{ url('user') }}/{{$user->id}}/destroy" class="btn btn-xs btn-red tooltips" data-placement="top" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>
