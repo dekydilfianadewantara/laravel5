@@ -63,6 +63,17 @@ class ArticleController extends Controller
         $destinationPath = public_path('images/articles');
         $data->title = $request->get('title');
         $data->content = $request->get('content');
+
+        $array = $request->get('genre');
+         
+         //$data->genre = implode('_', $array);
+         foreach ($array as  $genre) {
+            $data = new Genre();
+             $data->genre  = $genre;
+             $data->save();
+         }
+     //   echo $arrays;
+    // ['Joe', 'PHP', 'Ruby'];
         $data->save();
 
         $destinationPath = public_path('images/articles');

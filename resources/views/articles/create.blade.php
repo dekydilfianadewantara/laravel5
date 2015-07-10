@@ -157,7 +157,7 @@
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-sm-12">
+                  <div class="col-md-3">
                     <label>
                       Upload Photo
                     </label>
@@ -174,9 +174,63 @@
                       </a>
                     </div>
                   </div>
-
                 </div>
+                 <div class="col-md-6">
+                    <h5 class=""> Genre </h5>
+                    <div class="col-md-3">
+                    <div class="">
+                    <label class="checkbox-inline">
+                      <input type="checkbox" class="flat-black" value="adventure" name="genre[]">
+                      Adventure
+                    </label>
+                    </div>
+                     <div class="">
+                    <label class="checkbox-inline">
+                      <input type="checkbox" class="flat-grey" value="game" name="genre[]">
+                      Game
+                    </label>
+                    </div>
+                    <div class="">
+                    <label class="checkbox-inline">
+                      <input type="checkbox" class="flat-red" value="sport" name="genre[]">
+                      Sport
+                    </label>
+                    </div>
+                    <div class="">
+                    <label class="checkbox-inline">
+                      <input type="checkbox" class="flat-green" value="finance" name="genre[]">
+                      Finance
+                    </label>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="">
+                    <label class="checkbox-inline">
+                      <input type="checkbox" class="flat-teal" value="health" name="genre[]">
+                      Health
+                    </label>
+                    </div>
+                    <div class="">
+                    <label class="checkbox-inline">
+                      <input type="checkbox" class="flat-orange" value="food" name="genre[]">
+                      Food
+                    </label>
+                    </div>
+                    <div class="">
+                    <label class="checkbox-inline">
+                      <input type="checkbox" class="flat-purple" value="otomotif" name="genre[]">
+                      Otomotif
+                    </label>
+                    </div>
+                    <div class="">
+                    <label class="checkbox-inline">
+                      <input type="checkbox" class="flat-yellow" value="politic" name="genre[]">
+                      Politic
+                    </label>
+                    </div>
+                 </div>
               </div>
+            </div>
               <div class="row">
                 <div class="col-md-12">
                   <div>
@@ -211,54 +265,10 @@
 </div>
 <!-- end: PAGE -->
 </div>
-<!-- end: MAIN CONTAINER -->
-<!-- start: FOOTER -->
 
-<!-- end: FOOTER -->
-<!-- start: SUBVIEW SAMPLE CONTENTS -->
-<!-- *** NEW NOTE *** -->
-
-<!-- *** READ NOTE *** -->
-<div id="readNote">
-  <div class="barTopSubview">
-    <a href="#newNote" class="new-note button-sv"><i class="fa fa-plus"></i> Add new note</a>
-  </div>
-  <div class="noteWrap col-md-8 col-md-offset-2">
-    <div class="panel panel-note">
-      <div class="e-slider owl-carousel owl-theme">
-        <div class="item">
-          <div class="panel-heading">
-            <h3>This is a Note</h3>
-          </div>
-
-
-        </div>
-
-
-      </div>
-    </div>
-  </div>
-</div>
-<!-- *** SHOW CALENDAR *** -->
-
-<!-- *** NEW EVENT *** -->
-
-<!-- *** READ EVENT *** -->
-
-<!-- *** NEW CONTRIBUTOR *** -->
-
-<!-- end: SUBVIEW SAMPLE CONTENTS -->
-
-<!-- start: MAIN JAVASCRIPTS -->
-    <!--[if lt IE 9]>
-    <script src="assets/plugins/respond.min.js"></script>
-    <script src="assets/plugins/excanvas.min.js"></script>
-    <script type="text/javascript" src="assets/plugins/jQuery/jquery-1.11.1.min.js"></script>
-    <![endif]-->
-    <!--[if gte IE 9]><!-->
-    <!-- end: UNTUK SUMMERNOTE -->
-
-
-    <!-- end: BODY -->
 
     @endsection
+
+
+
+                  

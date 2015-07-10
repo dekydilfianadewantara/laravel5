@@ -55,9 +55,10 @@
                    <a href="{{ url('user') }}/{{$user->id}}/destroy" class="btn btn-xs btn-red tooltips" data-placement="top" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>
                   </td>
                </tr>
-               @endforeach    
+               @endforeach   
              </tbody>
            </table>
+             {!! $users->render() !!} 
          </div>
        </div>
        <!-- end: TABLE WITH IMAGES PANEL -->

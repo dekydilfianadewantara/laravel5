@@ -36,7 +36,7 @@
                     <table class="table table-striped table-hover" id="sample-table-2">
                       <thead>
                         <tr>
-                          <th class="center">NO</th>
+                          <th class="hidden-xsr">NO</th>
                           <th class="hidden-xs">Photo</th>
                           <th class="hidden-xs">Title</th>
                     
@@ -48,12 +48,12 @@
                       <tbody>
                       @foreach($articles as $key => $article)
                         <tr>
-                          <td class="center">
+                          
                           <td class ="hidden-xs">{{ $key+1}}</td>
-                          <td class="center"><img src="{{ url('images/articles/'.$article->image) }}" alt="image" width="50px" height ="50px"/></td>
+                          <td class="hidden-xs"><img src="{{ url('images/articles/'.$article->image) }}" alt="image" width="50px" height ="50px"/></td>
                           <td>{{ $article->title}}</td>
                           <td class="hidden-xs">{{ $article->content}}</td>
-                          <td class="center">
+                          <td class="hidden-xs">
                           <div class="visible-md visible-lg hidden-sm hidden-xs">
                            <form class="right" method="POST" action="{{ route('article.destroy', $article->id) }}">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
